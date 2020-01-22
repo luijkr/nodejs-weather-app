@@ -1,18 +1,20 @@
+const express = require('express');
+const serverless = require("serverless-http");
 const request = require('request');
 const bodyParser = require('body-parser');
-const express = require('express');
+
 const app = express()
+const router = express.Router();
 const apiKey = process.env.WEATHER_KEY;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
-app.set('view engine', 'ejs')
+module.exports.handler = serverless(app);
 
-app.get('/', (req, res) => {
-    res.render('index', { weather: null, error: null });
+router.get('/', (req, res) => {
+    // res.render('index', { weather: null, error: null });
+    res.render('index');
 });
 
-app.post('/', function (req, res) {
+router.post('/', function (req, res) {
     const city = req.body.city;
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
     
@@ -31,6 +33,7 @@ app.post('/', function (req, res) {
     });
 });
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!')
-});
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+// app.set('view engine', 'ejs')
+app.use("/.netlify/functions/api", router);

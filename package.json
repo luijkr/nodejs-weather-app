@@ -4,8 +4,8 @@
   "description": "Simple weather app",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "./node_modules/.bin/netlify-lambda serve src",
+    "build": "./node_modules/.bin/netlify-lambda build src"
   },
   "author": "René Luijk",
   "license": "ISC",
@@ -13,6 +13,8 @@
     "body-parser": "^1.19.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
-    "request": "^2.88.0"
+    "netlify-lambda": "^1.6.3",
+    "request": "^2.88.0",
+    "serverless-http": "^2.3.0"
   }
 }
